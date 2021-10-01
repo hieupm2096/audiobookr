@@ -1,20 +1,35 @@
-import { AllowNull, Model , BelongsTo, Column, ForeignKey, PrimaryKey, Table } from "sequelize-typescript"
+import { AllowNull, Model , BelongsTo, Column, ForeignKey, PrimaryKey, Table, CreatedAt, UpdatedAt } from "sequelize-typescript"
 import { Category } from "./category.model"
 
 @Table({ tableName: 'sub_cat' })
 export class SubCat extends Model {
     @PrimaryKey
     @Column
-    id: string
+    id?: string
 
     @AllowNull(false)
     @Column
-    name: string
+    name!: string
 
     @ForeignKey(() => Category)
     @Column
-    catId: string
+    catId!: string
 
     @BelongsTo(() => Category)
     category: Category
+
+    @Column
+    description?: string
+
+    @Column
+    slug!: string
+
+    @CreatedAt
+    createdAt?: Date
+
+    @UpdatedAt
+    updatedAt?: Date
+
+    @Column
+    status?: number
 }
