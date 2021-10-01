@@ -3,24 +3,31 @@ import cors from 'cors'
 import helmet from 'helmet'
 import './cores/dotenv/config'
 import { sequelize } from './cores/networking/sequelize'
+import { categoryRouter } from './routers/category.router'
 
-// get env
-if (!process.env.PORT) {
-    console.log('No port configuration')
-    process.exit(1)
-}
-const PORT: number = parseInt(process.env.PORT as string, 10)
+(async () => {
+    // get env
+    if (!process.env.PORT) {
+        console.log('No port configuration')
+        process.exit(1)
+    }
+    const port: number = parseInt(process.env.PORT as string, 10)
 
-const app = express();
+    const app = express();
 
-app.use(helmet())
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+    app.use(helmet())
+    app.use(cors())
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
 
-sequelize.authenticate()
+    // db
+    await sequelize.authenticate();
 
-// start the Express server
-app.listen(PORT, () => {
-    console.log(`server is listening on port ${PORT}`)
-});
+    // router
+    app.use('/api/v1', categoryRouter)
+
+    // start the Express server
+    app.listen(port, () => {
+        console.log(`server is listening on port ${port}`)
+    });
+})();
