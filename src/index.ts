@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import './cores/dotenv/config'
 import { sequelize } from './cores/networking/sequelize'
 import { categoryRouter } from './routers/category.router'
+import { subCatRouter } from './routers/subcat.router'
 
 (async () => {
     // get env
@@ -25,6 +26,7 @@ import { categoryRouter } from './routers/category.router'
 
     // router
     app.use('/api/v1', categoryRouter)
+    app.use('/api/v1', subCatRouter)
 
     // start the Express server
     app.listen(port, () => {

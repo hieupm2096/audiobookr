@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript'
+import { SubCat } from '../../models/subcat.model'
 import { Category } from '../../models/category.model'
 
 const db = process.env.DATABASE_NAME
@@ -22,5 +23,5 @@ export const sequelize = new Sequelize(db, username, password, {
         }
     },
     port,
-    models: [Category]
+    models: [Category, SubCat]
 })
