@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import { SubCatService } from '../services/subcat.service'
 import { body, CustomValidator, validationResult } from 'express-validator'
-import { Category } from '../models/category.model'
 import { CategoryService } from '../services/category.service'
 
 export const subCatRouter = Router()
