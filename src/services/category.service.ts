@@ -9,8 +9,8 @@ export class CategoryService {
         return await Category.findOne({ where: { id } })
     }
 
-    async createCategory(name: string, description: string, slug: string) {
-        const category = new Category({ name, description, slug })
+    async createCategory(model: { name: string, description: string, slug: string }) {
+        const category = new Category(model)
 
         const result = await category.save({ fields: ['name', 'description', 'slug'] })
 

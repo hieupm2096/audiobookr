@@ -5,6 +5,7 @@ import './cores/dotenv/config'
 import { sequelize } from './cores/networking/sequelize'
 import { categoryRouter } from './routers/category.router'
 import { subCatRouter } from './routers/subcat.router'
+import { bookRouter } from './routers/book.router'
 
 (async () => {
     // get env
@@ -27,6 +28,7 @@ import { subCatRouter } from './routers/subcat.router'
     // router
     app.use('/api/v1', categoryRouter)
     app.use('/api/v1', subCatRouter)
+    app.use('/api/v1', bookRouter)
 
     // start the Express server
     app.listen(port, () => {
