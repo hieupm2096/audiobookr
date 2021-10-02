@@ -3,29 +3,28 @@ import { SubCat } from './subcat.model'
 
 @Table({ tableName: 'category' })
 export class Category extends Model {
-    @PrimaryKey
-    @Column
-    id?: string
+  @PrimaryKey
+  @Column
+  id?: string
 
-    @Column
-    name!: string
+  @Column
+  name!: string
 
-    @Column
-    description?: string
+  @Column
+  description?: string
 
-    @Column
-    slug!: string
+  @Column
+  slug!: string
 
-    @CreatedAt
-    createdAt?: Date
+  @CreatedAt
+  createdAt?: Date
 
-    @UpdatedAt
-    updatedAt?: Date
+  @UpdatedAt
+  updatedAt?: Date
 
-    @Column
-    status?: number
+  @Column
+  status?: number
 
-    @HasMany(() => SubCat)
-    subcats: SubCat[]
+  @HasMany(() => SubCat)
+  subcats: SubCat[]
 }
-
