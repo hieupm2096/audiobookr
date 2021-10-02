@@ -11,7 +11,7 @@ const categoryService = new CategoryService()
 // GET: /subcat
 subCatRouter.get('/subcat', async (req, res) => {
   try {
-    const catId: any = req.query.catId
+    const catId = req.query.catId as string
     const subcats = await subCatService.getSubCatList(catId)
     return res.status(200).json({ message: 'success', data: subcats })
   } catch (e) {

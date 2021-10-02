@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { body, ValidationChain, validationResult } from 'express-validator'
+import { body, ValidationChain } from 'express-validator'
 import { validate } from '../cores/validation/express-validator'
 import { Category } from '../models/category.model'
 import { CategoryService } from '../services/category.service'

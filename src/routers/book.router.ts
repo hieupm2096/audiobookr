@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { body, CustomValidator, ValidationChain, validationResult } from 'express-validator'
+import { body, CustomValidator, ValidationChain } from 'express-validator'
 import { validate } from '../cores/validation/express-validator'
 import { BookService } from '../services/book.service'
 import { SubCatService } from '../services/subcat.service'
@@ -11,7 +11,7 @@ const subCatService = new SubCatService()
 // GET: /book
 bookRouter.get('/book', async (req, res) => {
   try {
-    const subCatId: any = req.query.subCatId
+    const subCatId = req.query.subCatId as string
     const books = await bookService.getBookList(subCatId)
 
     return res.status(200).json({ message: 'success', data: books })
