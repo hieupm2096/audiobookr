@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { body, CustomValidator, ValidationChain } from 'express-validator'
-import { validate } from '../cores/validation/express-validator'
+import { validate } from '../externals/validation/express-validator'
 import { BookService } from '../services/book.service'
 import { SubCatService } from '../services/subcat.service'
 
@@ -29,7 +29,7 @@ const isValidSubCatId: CustomValidator = async (id) => {
 
 const createBookValidations: ValidationChain[] = [
   body('name').notEmpty(),
-  body('subCatId').notEmpty().bail().isUUID().bail().custom(isValidSubCatId),
+  body('subCatId').isUUID().bail().custom(isValidSubCatId),
   body('featureImage').optional().isURL(),
   body('coverImage').optional().isURL(),
   body('listenUrl').optional().isURL(),

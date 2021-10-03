@@ -1,13 +1,14 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-import './cores/dotenv/config'
-import { sequelize } from './cores/networking/sequelize'
+import './externals/dotenv/config'
+import { sequelize } from './externals/networking/sequelize'
 import { categoryRouter } from './routers/category.router'
 import { subCatRouter } from './routers/subcat.router'
 import { bookRouter } from './routers/book.router'
+import { uploadRouter } from './routers/upload.router'
 
-;(async () => {
+(async () => {
   // get env
   if (!process.env.PORT) {
     console.log('No port configuration')
@@ -29,6 +30,7 @@ import { bookRouter } from './routers/book.router'
   app.use('/api/v1', categoryRouter)
   app.use('/api/v1', subCatRouter)
   app.use('/api/v1', bookRouter)
+  app.use('/api/v1', uploadRouter)
 
   // start the Express server
   app.listen(port, () => {

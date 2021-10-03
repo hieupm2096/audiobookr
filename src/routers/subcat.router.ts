@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { SubCatService } from '../services/subcat.service'
 import { body, CustomValidator, ValidationChain } from 'express-validator'
 import { CategoryService } from '../services/category.service'
-import { validate } from '../cores/validation/express-validator'
+import { validate } from '../externals/validation/express-validator'
 
 export const subCatRouter = Router()
 const subCatService = new SubCatService()
@@ -28,7 +28,7 @@ const isValidCategoryId: CustomValidator = async (id) => {
 // POST: /subcat
 const creteSubCatValidations: ValidationChain[] = [
   body('name').notEmpty(),
-  body('catId').notEmpty().bail().isUUID().bail().custom(isValidCategoryId),
+  body('catId').isUUID().bail().custom(isValidCategoryId),
   body('slug').exists(),
 ]
 
