@@ -2,11 +2,11 @@ import { Chapter } from './chapter.model'
 
 class ChapterService {
   async getChapterList(bookId: string): Promise<Chapter[]> {
-    return Chapter.findAll({ where: { bookId } })
+    return await Chapter.findAll({ where: { bookId } })
   }
 
   async getChapter(id: string): Promise<Chapter> {
-      return Chapter.findOne({ where: { id }})
+      return await Chapter.findOne({ where: { id }})
   }
 
   async createChapter(model: {

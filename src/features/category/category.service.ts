@@ -2,11 +2,11 @@ import { Category } from './category.model'
 
 class CategoryService {
   async getCategoryList(): Promise<Category[]> {
-    return Category.findAll()
+    return await Category.findAll()
   }
 
   async getCategory(id: string): Promise<Category> {
-    return Category.findOne({ where: { id } })
+    return await Category.findOne({ where: { id } })
   }
 
   async createCategory(model: { name: string; description: string; slug: string }): Promise<Category> {

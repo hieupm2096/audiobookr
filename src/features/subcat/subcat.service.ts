@@ -4,9 +4,9 @@ import { SubCat } from './subcat.model'
 class SubCatService {
   async getSubCatList(catId?: string): Promise<SubCat[]> {
     if (!catId) {
-      return SubCat.findAll({ include: Category })
+      return await SubCat.findAll({ include: Category })
     }
-    return SubCat.findAll({ where: { catId }, include: Category })
+    return await SubCat.findAll({ where: { catId }, include: Category })
   }
 
   async getSubCat(id: string): Promise<SubCat> {

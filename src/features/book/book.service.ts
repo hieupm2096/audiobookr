@@ -4,13 +4,13 @@ import { Book } from './book.model'
 class BookService {
   async getBookList(subCatId?: string): Promise<Book[]> {
     if (!subCatId) {
-      return Book.findAll({ include: SubCat })
+      return await Book.findAll({ include: SubCat })
     }
-    return Book.findAll({ include: SubCat, where: { subCatId } })
+    return await Book.findAll({ include: SubCat, where: { subCatId } })
   }
 
   async getBook(id: string): Promise<Book> {
-    return Book.findOne({ include: SubCat, where: { id } })
+    return await Book.findOne({ include: SubCat, where: { id } })
   }
 
   async createBook(model: {
