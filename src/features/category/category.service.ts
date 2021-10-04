@@ -1,6 +1,6 @@
-import { Category } from '../models/category.model'
+import { Category } from './category.model'
 
-export class CategoryService {
+class CategoryService {
   async getCategoryList(): Promise<Category[]> {
     return Category.findAll()
   }
@@ -17,3 +17,5 @@ export class CategoryService {
     return result
   }
 }
+
+export const categoryService = new CategoryService()

@@ -1,12 +1,10 @@
 import { Router } from 'express'
-import { SubCatService } from '../services/subcat.service'
 import { body, CustomValidator, ValidationChain } from 'express-validator'
-import { CategoryService } from '../services/category.service'
-import { validate } from '../externals/validation/express-validator'
+import { validate } from '../../externals/validation/express-validator'
+import { categoryService } from '../category'
+import { subCatService } from './subcat.service'
 
 export const subCatRouter = Router()
-const subCatService = new SubCatService()
-const categoryService = new CategoryService()
 
 // GET: /subcat
 subCatRouter.get('/subcat', async (req, res) => {

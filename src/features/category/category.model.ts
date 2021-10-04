@@ -1,5 +1,5 @@
 import { Table, Model, Column, CreatedAt, UpdatedAt, PrimaryKey, HasMany } from 'sequelize-typescript'
-import { SubCat } from './subcat.model'
+import { SubCat } from '../subcat/subcat.model'
 
 @Table({ tableName: 'category' })
 export class Category extends Model {

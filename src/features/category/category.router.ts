@@ -1,11 +1,10 @@
 import { Router } from 'express'
 import { body, ValidationChain } from 'express-validator'
-import { validate } from '../externals/validation/express-validator'
-import { Category } from '../models/category.model'
-import { CategoryService } from '../services/category.service'
+import { validate } from '../../externals/validation/express-validator'
+import { Category } from './category.model'
+import { categoryService } from './category.service'
 
 export const categoryRouter = Router()
-const categoryService = new CategoryService()
 
 // GET: /category
 categoryRouter.get('/category', async (req, res) => {

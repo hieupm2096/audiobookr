@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { query } from 'express-validator'
-import { validate } from '../externals/validation/express-validator'
-import { S3Service } from '../services/s3.service'
+import { validate } from '../../externals/validation/express-validator'
+import { S3Service } from './s3.service'
 
 export const uploadRouter = Router()
 

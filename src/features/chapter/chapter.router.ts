@@ -1,12 +1,10 @@
 import { Router } from 'express'
 import { body, CustomValidator, param, query, ValidationChain } from 'express-validator'
-import { BookService } from '../services/book.service'
-import { validate } from '../externals/validation/express-validator'
-import { ChapterService } from '../services/chapter.service'
+import { validate } from '../../externals/validation/express-validator'
+import { bookService } from '../book'
+import { chapterService } from './chapter.service'
 
 export const chapterRouter = Router()
-const chapterService = new ChapterService()
-const bookService = new BookService()
 
 const isValidBookId: CustomValidator = async (id: string) => {
   const book = await bookService.getBook(id)
@@ -42,7 +40,8 @@ const createChapterValidations: ValidationChain[] = [
 
 chapterRouter.post('/chapter', validate(createChapterValidations), async (req, res) => {
   try {
-    // TODO:
+    const result = await chapterService.createChapter(req.body)
+    return res.status(200).json({ message: 'success', data: result })
   } catch (e) {
     console.log('error: ' + e.message)
     return res.status(500).json({ message: e.message })

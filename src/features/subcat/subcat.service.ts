@@ -1,7 +1,7 @@
-import { Category } from '../models/category.model'
-import { SubCat } from '../models/subcat.model'
+import { Category } from '../category'
+import { SubCat } from './subcat.model'
 
-export class SubCatService {
+class SubCatService {
   async getSubCatList(catId?: string): Promise<SubCat[]> {
     if (!catId) {
       return SubCat.findAll({ include: Category })
@@ -21,3 +21,5 @@ export class SubCatService {
     return result
   }
 }
+
+export const subCatService = new SubCatService()

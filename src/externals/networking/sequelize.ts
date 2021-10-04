@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize-typescript'
-import { SubCat } from '../../models/subcat.model'
-import { Category } from '../../models/category.model'
-import { Book } from '../../models/book.model'
-import { Chapter } from '../../models/chapter.model'
+import { SubCat } from '../../features/subcat/subcat.model'
+import { Category } from '../../features/category/category.model'
+import { Book } from '../../features/book/book.model'
+import { Chapter } from '../../features/chapter/chapter.model'
 
 const db = process.env.DATABASE_NAME
 const username = process.env.DATABASE_USERNAME

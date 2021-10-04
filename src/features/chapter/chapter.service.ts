@@ -1,6 +1,6 @@
-import { Chapter } from '../models/chapter.model'
+import { Chapter } from './chapter.model'
 
-export class ChapterService {
+class ChapterService {
   async getChapterList(bookId: string): Promise<Chapter[]> {
     return Chapter.findAll({ where: { bookId } })
   }
@@ -41,3 +41,5 @@ export class ChapterService {
     return result[1][0]
   }
 }
+
+export const chapterService = new ChapterService()

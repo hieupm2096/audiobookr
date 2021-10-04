@@ -1,12 +1,10 @@
 import { Router } from 'express'
 import { body, CustomValidator, param, query, ValidationChain } from 'express-validator'
-import { validate } from '../externals/validation/express-validator'
-import { BookService } from '../services/book.service'
-import { SubCatService } from '../services/subcat.service'
+import { validate } from '../../externals/validation/express-validator'
+import { bookService } from './book.service'
+import { subCatService } from '../subcat/subcat.service'
 
 export const bookRouter = Router()
-const bookService = new BookService()
-const subCatService = new SubCatService()
 
 const isValidSubCatId: CustomValidator = async (id: string) => {
   const subcat = await subCatService.getSubCat(id)

@@ -3,11 +3,11 @@ import cors from 'cors'
 import helmet from 'helmet'
 import './externals/dotenv/config'
 import { sequelize } from './externals/networking/sequelize'
-import { categoryRouter } from './routers/category.router'
-import { subCatRouter } from './routers/subcat.router'
-import { bookRouter } from './routers/book.router'
-import { uploadRouter } from './routers/upload.router'
-import { chapterRouter } from './routers/chapter.router'
+import { categoryRouter } from './features/category'
+import { subCatRouter } from './features/subcat'
+import { bookRouter } from './features/book'
+import { uploadRouter } from './features/upload/upload.router'
+import { chapterRouter } from './features/chapter'
 
 (async () => {
   // get env

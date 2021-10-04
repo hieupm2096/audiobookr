@@ -9,7 +9,7 @@ import {
   CreatedAt,
   UpdatedAt,
 } from 'sequelize-typescript'
-import { SubCat } from './subcat.model'
+import { SubCat } from '../subcat/subcat.model'
 
 @Table({ tableName: 'book' })
 export class Book extends Model {

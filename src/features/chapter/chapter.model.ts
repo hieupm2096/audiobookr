@@ -1,5 +1,5 @@
 import { Model, AllowNull, BelongsTo, Column, CreatedAt, ForeignKey, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
-import { Book } from './book.model'
+import { Book } from '../book'
 
 @Table({ tableName: 'chapter' })
 export class Chapter extends Model {
