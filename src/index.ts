@@ -7,6 +7,7 @@ import { categoryRouter } from './routers/category.router'
 import { subCatRouter } from './routers/subcat.router'
 import { bookRouter } from './routers/book.router'
 import { uploadRouter } from './routers/upload.router'
+import { chapterRouter } from './routers/chapter.router'
 
 (async () => {
   // get env
@@ -30,6 +31,7 @@ import { uploadRouter } from './routers/upload.router'
   app.use('/api/v1', categoryRouter)
   app.use('/api/v1', subCatRouter)
   app.use('/api/v1', bookRouter)
+  app.use('/api/v1', chapterRouter)
   app.use('/api/v1', uploadRouter)
 
   // start the Express server
