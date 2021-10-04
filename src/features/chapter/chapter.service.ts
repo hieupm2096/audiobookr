@@ -38,6 +38,9 @@ class ChapterService {
     },
   ): Promise<Chapter> {
     const result = await Chapter.update(model, { where: { id }, returning: true })
+    if (result[0] == 0) {
+      return {} as Chapter
+    }
     return result[1][0]
   }
 }

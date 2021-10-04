@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { body, CustomValidator, param, query, ValidationChain } from 'express-validator'
-import { validate } from '../../externals/validation/express-validator'
+import { bodyNotEmpty, validate } from '../../externals/validation/express-validator'
 import { bookService } from '../book'
 import { chapterService } from './chapter.service'
 
@@ -50,6 +50,7 @@ chapterRouter.post('/chapter', validate(createChapterValidations), async (req, r
 
 // PUT: /chapter/:id
 const updateChapterValidations: ValidationChain[] = [
+  body().custom(bodyNotEmpty),
   param('id').isUUID().bail().custom(isValidChapterId),
   body('featureImage').optional().isURL(),
   body('coverImage').optional().isURL(),

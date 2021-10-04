@@ -1,5 +1,5 @@
 import express from 'express'
-import { ValidationChain, validationResult } from 'express-validator'
+import { CustomValidator, ValidationChain, validationResult } from 'express-validator'
 
 export const validate = (validations: ValidationChain[]) => {
   return async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
@@ -11,5 +11,11 @@ export const validate = (validations: ValidationChain[]) => {
     }
 
     res.status(400).json({ message: errors.array() })
+  }
+}
+
+export const bodyNotEmpty: CustomValidator = (_, { req } ) => {
+  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+    return Promise.reject('Invalid request body')
   }
 }

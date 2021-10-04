@@ -43,6 +43,9 @@ class BookService {
     },
   ): Promise<Book> {
     const result = await Book.update(model, { where: { id }, returning: true })
+    if (result[0] == 0) {
+      return {} as Book
+    }
     return result[1][0]
   }
 }
