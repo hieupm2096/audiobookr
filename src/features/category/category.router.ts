@@ -18,7 +18,11 @@ categoryRouter.get('/category', async (req, res) => {
 })
 
 // POST: /category
-const createCategoryValidations: ValidationChain[] = [body('name').notEmpty(), body('slug').notEmpty()]
+const createCategoryValidations: ValidationChain[] = [
+  body('name').notEmpty(),
+  body('description').optional().isString(),
+  body('slug').optional().isString(),
+]
 
 categoryRouter.post('/category', validate(createCategoryValidations), async (req, res) => {
   try {

@@ -27,7 +27,8 @@ const isValidCategoryId: CustomValidator = async (id) => {
 const creteSubCatValidations: ValidationChain[] = [
   body('name').notEmpty(),
   body('catId').isUUID().bail().custom(isValidCategoryId),
-  body('slug').exists(),
+  body('description').optional().isString(),
+  body('slug').optional().isString(),
 ]
 
 subCatRouter.post('/subcat', validate(creteSubCatValidations), async (req, res) => {

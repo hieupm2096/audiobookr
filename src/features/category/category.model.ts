@@ -14,7 +14,7 @@ export class Category extends Model {
   description?: string
 
   @Column
-  slug!: string
+  slug?: string
 
   @CreatedAt
   createdAt?: Date
