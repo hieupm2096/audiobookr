@@ -1,17 +1,30 @@
 import { Author } from '../author'
-import { SubCat } from '../subcat/subcat.model'
+import { Chapter } from '../chapter'
+import { SubCat } from '../subcat'
 import { Book } from './book.model'
 
 class BookService {
   async getBookList(subCatId?: string): Promise<Book[]> {
     if (!subCatId) {
-      return await Book.findAll({ include: [SubCat, Author] })
+      return await Book.findAll({
+        include: [
+          { model: SubCat, attributes: ['id', 'name'] },
+          { model: Author, attributes: ['id', 'name'] },
+        ],
+      })
     }
-    return await Book.findAll({ include: [Author], where: { subCatId } })
+    return await Book.findAll({ include: [{ model: Author, attributes: ['id', 'name'] }], where: { subCatId } })
   }
 
   async getBook(id: string): Promise<Book> {
-    return await Book.findOne({ include: [SubCat, Author], where: { id } })
+    return await Book.findOne({
+      include: [
+        { model: SubCat, attributes: ['id', 'name'] },
+        { model: Author, attributes: ['id', 'name'] },
+        { model: Chapter },
+      ],
+      where: { id },
+    })
   }
 
   async bookIdExists(id: string): Promise<boolean> {

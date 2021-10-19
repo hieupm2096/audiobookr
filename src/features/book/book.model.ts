@@ -8,9 +8,11 @@ import {
   BelongsTo,
   CreatedAt,
   UpdatedAt,
+  HasMany,
 } from 'sequelize-typescript'
-import { Author } from '../author/author.model'
-import { SubCat } from '../subcat/subcat.model'
+import { Author } from '../author'
+import { Chapter } from '../chapter'
+import { SubCat } from '../subcat'
 
 @Table({ tableName: 'book' })
 export class Book extends Model {
@@ -35,6 +37,9 @@ export class Book extends Model {
 
   @BelongsTo(() => Author)
   author: Author
+
+  @HasMany(() => Chapter)
+  chapters: Chapter[]
 
   @Column
   description?: string

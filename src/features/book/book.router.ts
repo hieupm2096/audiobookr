@@ -39,6 +39,18 @@ bookRouter.get(
   },
 )
 
+bookRouter.get('/book/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const book = await bookService.getBook(id)
+
+    return res.status(200).json({ message: 'success', data: book })
+  } catch (e) {
+    console.log('error: ' + e.message)
+    return res.status(500).json({ message: e.message })
+  }
+})
+
 // POST: /book
 const createBookValidations: ValidationChain[] = [
   body('name').notEmpty(),
