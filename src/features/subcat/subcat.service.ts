@@ -10,7 +10,12 @@ class SubCatService {
   }
 
   async getSubCat(id: string): Promise<SubCat> {
-    return SubCat.findOne({ include: Category, where: { id } })
+    return await SubCat.findOne({ where: { id }, include: Category })
+  }
+
+  async subcatIdExists(id: string): Promise<boolean> {
+    const exists = await SubCat.findOne({ where: { id }, attributes: ['id'] })
+    return exists != null
   }
 
   async createSubCat(model: { name: string; catId: string; description: string; slug: string }): Promise<SubCat> {

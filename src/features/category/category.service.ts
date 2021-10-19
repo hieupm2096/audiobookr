@@ -1,3 +1,4 @@
+import { SubCat } from '../subcat'
 import { Category } from './category.model'
 
 class CategoryService {
@@ -6,7 +7,12 @@ class CategoryService {
   }
 
   async getCategory(id: string): Promise<Category> {
-    return await Category.findOne({ where: { id } })
+    return await Category.findOne({ where: { id }, include: [SubCat] })
+  }
+
+  async categoryExists(id: string): Promise<boolean> {
+    const exists = await Category.findOne({ where: { id }, attributes: ['id'] })
+    return exists != null
   }
 
   async createCategory(model: { name: string; description: string; slug: string }): Promise<Category> {

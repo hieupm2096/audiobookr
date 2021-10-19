@@ -1,22 +1,29 @@
+import { Author } from '../author'
 import { SubCat } from '../subcat/subcat.model'
 import { Book } from './book.model'
 
 class BookService {
   async getBookList(subCatId?: string): Promise<Book[]> {
     if (!subCatId) {
-      return await Book.findAll({ include: SubCat })
+      return await Book.findAll({ include: [SubCat, Author] })
     }
-    return await Book.findAll({ include: SubCat, where: { subCatId } })
+    return await Book.findAll({ include: [Author], where: { subCatId } })
   }
 
   async getBook(id: string): Promise<Book> {
-    return await Book.findOne({ include: SubCat, where: { id } })
+    return await Book.findOne({ include: [SubCat, Author], where: { id } })
+  }
+
+  async bookIdExists(id: string): Promise<boolean> {
+    const result = await Book.findOne({ where: { id }, attributes: ['id'] })
+    return result != null
   }
 
   async createBook(model: {
     name: string
     subCatId: string
-    description: string
+    authorId: string
+    description?: string
     featureImage?: string
     coverImage?: string
     listenUrl?: string
@@ -24,7 +31,7 @@ class BookService {
     const book = new Book(model)
 
     const result = await book.save({
-      fields: ['name', 'subCatId', 'description', 'featureImage', 'coverImage', 'listenUrl'],
+      fields: ['name', 'subCatId', 'authorId', 'description', 'featureImage', 'coverImage', 'listenUrl'],
     })
 
     return result

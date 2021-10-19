@@ -8,6 +8,7 @@ import { subCatRouter } from './features/subcat'
 import { bookRouter } from './features/book'
 import { uploadRouter } from './features/upload/upload.router'
 import { chapterRouter } from './features/chapter'
+import { authorRouter } from './features/author'
 
 (async () => {
   // get env
@@ -32,6 +33,7 @@ import { chapterRouter } from './features/chapter'
   app.use('/api/v1', subCatRouter)
   app.use('/api/v1', bookRouter)
   app.use('/api/v1', chapterRouter)
+  app.use('/api/v1', authorRouter)
   app.use('/api/v1', uploadRouter)
 
   // start the Express server

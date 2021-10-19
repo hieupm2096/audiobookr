@@ -9,6 +9,7 @@ import {
   CreatedAt,
   UpdatedAt,
 } from 'sequelize-typescript'
+import { Author } from '../author/author.model'
 import { SubCat } from '../subcat/subcat.model'
 
 @Table({ tableName: 'book' })
@@ -27,6 +28,13 @@ export class Book extends Model {
 
   @BelongsTo(() => SubCat)
   subCat: SubCat
+
+  @ForeignKey(() => Author)
+  @Column
+  authorId!: string
+
+  @BelongsTo(() => Author)
+  author: Author
 
   @Column
   description?: string

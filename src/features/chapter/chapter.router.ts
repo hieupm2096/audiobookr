@@ -7,12 +7,12 @@ import { chapterService } from './chapter.service'
 export const chapterRouter = Router()
 
 const isValidBookId: CustomValidator = async (id: string) => {
-  const book = await bookService.getBook(id)
-  if (!book) return Promise.reject('Book does not exists')
+  const result = await bookService.bookIdExists(id)
+  if (!result) return Promise.reject('Book does not exist')
 }
 
 const isValidChapterId: CustomValidator = async (id: string) => {
-  const chapter = await chapterService.getChapter(id)
+  const chapter = await chapterService.chapterExists(id)
   if (!chapter) return Promise.reject('Chapter does not exist')
 }
 

@@ -19,7 +19,7 @@ subCatRouter.get('/subcat', async (req, res) => {
 })
 
 const isValidCategoryId: CustomValidator = async (id) => {
-  const category = await categoryService.getCategory(id)
+  const category = await categoryService.categoryExists(id)
   if (!category) return Promise.reject('Category does not exists')
 }
 

@@ -3,6 +3,7 @@ import { SubCat } from '../../features/subcat/subcat.model'
 import { Category } from '../../features/category/category.model'
 import { Book } from '../../features/book/book.model'
 import { Chapter } from '../../features/chapter/chapter.model'
+import { Author } from '../../features/author/author.model'
 
 const db = process.env.DATABASE_NAME
 const username = process.env.DATABASE_USERNAME
@@ -25,5 +26,5 @@ export const sequelize = new Sequelize(db, username, password, {
     },
   },
   port,
-  models: [Category, SubCat, Book, Chapter],
+  models: [Category, SubCat, Book, Chapter, Author],
 })

@@ -9,6 +9,11 @@ class ChapterService {
       return await Chapter.findOne({ where: { id }})
   }
 
+  async chapterExists(id: string): Promise<boolean> {
+    const exists = await Chapter.findOne({ where: { id }, attributes: ['id'] })
+    return exists != null
+  }
+
   async createChapter(model: {
     name: string
     bookId: string
