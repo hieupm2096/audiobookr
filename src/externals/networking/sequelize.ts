@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize-typescript'
-import { SubCat } from '../../features/subcat/subcat.model'
-import { Category } from '../../features/category/category.model'
-import { Book } from '../../features/book/book.model'
-import { Chapter } from '../../features/chapter/chapter.model'
-import { Author } from '../../features/author/author.model'
+import { SubCat } from '../../features/subcat'
+import { Category } from '../../features/category'
+import { Book, BookAuthor, BookSubCat } from '../../features/book'
+import { Chapter } from '../../features/chapter'
+import { Author } from '../../features/author'
 
 const db = process.env.DATABASE_NAME
 const username = process.env.DATABASE_USERNAME
@@ -26,5 +26,5 @@ export const sequelize = new Sequelize(db, username, password, {
     },
   },
   port,
-  models: [Category, SubCat, Book, Chapter, Author],
+  models: [Category, SubCat, Book, Chapter, Author, BookAuthor, BookSubCat],
 })

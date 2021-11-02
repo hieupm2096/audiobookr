@@ -1,5 +1,5 @@
-import { AllowNull, Column, CreatedAt, HasMany, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript';
-import { Book } from '../book';
+import { AllowNull, BelongsToMany, Column, CreatedAt, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript';
+import { Book, BookAuthor } from '../book';
 
 @Table({ tableName: 'author' })
 export class Author extends Model {
@@ -31,7 +31,7 @@ export class Author extends Model {
   
     @Column
     viewCount?: number
-  
+
     @CreatedAt
     createdAt?: Date
   
@@ -41,6 +41,6 @@ export class Author extends Model {
     @Column
     status?: number
 
-    @HasMany(() => Book)
+    @BelongsToMany(() => Book, () => BookAuthor)
     books: Book[]
 }

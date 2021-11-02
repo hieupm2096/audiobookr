@@ -8,7 +8,9 @@ import {
   Table,
   CreatedAt,
   UpdatedAt,
+  BelongsToMany,
 } from 'sequelize-typescript'
+import { Book, BookSubCat } from '../book'
 import { Category } from '../category'
 
 @Table({ tableName: 'sub_cat' })
@@ -42,4 +44,7 @@ export class SubCat extends Model {
 
   @Column
   status?: number
+
+  @BelongsToMany(() => Book, () => BookSubCat)
+  books: Book[]
 }

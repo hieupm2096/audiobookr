@@ -4,12 +4,12 @@ import {
   PrimaryKey,
   Column,
   AllowNull,
-  ForeignKey,
-  BelongsTo,
   CreatedAt,
   UpdatedAt,
   HasMany,
+  BelongsToMany,
 } from 'sequelize-typescript'
+import { BookAuthor, BookSubCat } from '.'
 import { Author } from '../author'
 import { Chapter } from '../chapter'
 import { SubCat } from '../subcat'
@@ -23,23 +23,6 @@ export class Book extends Model {
   @AllowNull(false)
   @Column
   name!: string
-
-  @ForeignKey(() => SubCat)
-  @Column
-  subCatId!: string
-
-  @BelongsTo(() => SubCat)
-  subCat: SubCat
-
-  @ForeignKey(() => Author)
-  @Column
-  authorId!: string
-
-  @BelongsTo(() => Author)
-  author: Author
-
-  @HasMany(() => Chapter)
-  chapters: Chapter[]
 
   @Column
   description?: string
@@ -70,4 +53,13 @@ export class Book extends Model {
 
   @Column
   status?: number
+
+  @BelongsToMany(() => SubCat, () => BookSubCat, )
+  subCats: SubCat[]
+
+  @BelongsToMany(() => Author, () => BookAuthor)
+  authors: Author[]
+
+  @HasMany(() => Chapter)
+  chapters: Chapter[]
 }

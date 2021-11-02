@@ -3,15 +3,20 @@ import { Book } from '../book'
 
 class AuthorService {
   async getAuthorList(): Promise<Author[]> {
-    return await Author.findAll()
+    return await Author.findAll({ include: { model: Book, through: { attributes: [] } } })
   }
 
   async authorIdExists(id: string) {
     return await Author.findOne({ where: { id }, attributes: ['id'] })
   }
 
+  async validateAuthorIdList(ids: string[]): Promise<boolean> {
+    const result = await Author.findAll({ attributes: ['id'], where: { id: ids } })
+    return result.length == ids.length
+  }
+
   async getAuthor(id: string) {
-    return await Author.findOne({ where: { id }, include: Book })
+    return await Author.findOne({ where: { id }, include: { model: Book, through: { attributes: [] } } })
   }
 
   async createAuthor(model: {

@@ -1,3 +1,4 @@
+import { sequelize } from '../../externals/networking/sequelize'
 import { Author } from '../author'
 import { Chapter } from '../chapter'
 import { SubCat } from '../subcat'
@@ -34,27 +35,49 @@ class BookService {
 
   async createBook(model: {
     name: string
-    subCatId: string
-    authorId: string
+    subCatIds: string[]
+    authorIds: string[]
     description?: string
     featureImage?: string
     coverImage?: string
     listenUrl?: string
   }): Promise<Book> {
+    const authors = model.authorIds.map((id) => new Author({ id }))
+
+    const subCats = model.subCatIds.map((id) => new SubCat({ id }))
+
     const book = new Book(model)
 
-    const result = await book.save({
-      fields: ['name', 'subCatId', 'authorId', 'description', 'featureImage', 'coverImage', 'listenUrl'],
-    })
+    const transaction = await sequelize.transaction()
 
-    return result
+    try {
+      const createdBook = await book.save({
+        fields: ['name', 'description', 'featureImage', 'coverImage', 'listenUrl'],
+        transaction,
+      })
+
+      await Promise.all([
+        createdBook.$set('subCats', subCats, { transaction }),
+        createdBook.$set('authors', authors, { transaction }),
+      ])
+
+      await transaction.commit()
+
+      const result = await this.getBook(createdBook.id)
+
+      return result
+    } catch (err) {
+      await transaction.rollback()
+      throw err
+    }
   }
 
   async updateBook(
     id: string,
     model: {
       name?: string
-      subCatId?: string
+      subCatIds?: string[]
+      authorIds?: string[]
       description?: string
       featureImage?: string
       coverImage?: string
@@ -62,11 +85,43 @@ class BookService {
       status?: number
     },
   ): Promise<Book> {
-    const result = await Book.update(model, { where: { id }, returning: true })
-    if (result[0] == 0) {
-      return {} as Book
+    const authors = model.authorIds?.map((id) => new Author({ id })) ?? []
+
+    const subCats = model.subCatIds?.map((id) => new SubCat({ id })) ?? []
+
+    const transaction = await sequelize.transaction()
+
+    const book = await this.getBook(id)
+
+    book.name = model.name ?? book.name
+    book.description = model.description ?? book.description
+    book.featureImage = model.featureImage ?? book.featureImage
+    book.coverImage = model.coverImage ?? book.coverImage
+    book.listenUrl = model.listenUrl ?? book.listenUrl
+    book.status = model.status ?? book.status
+
+    const promises: Promise<unknown>[] = [book.save({ transaction })]
+
+    if (subCats.length > 0) {
+      promises.push(book.$set('subCats', subCats, { transaction }))
     }
-    return result[1][0]
+
+    if (authors.length > 0) {
+      promises.push(book.$set('authors', authors, { transaction }))
+    }
+
+    try {
+      await Promise.all(promises)
+
+      await transaction.commit()
+
+      const result = await this.getBook(book.id)
+
+      return result
+    } catch (err) {
+      await transaction.rollback()
+      throw err
+    }
   }
 }
 

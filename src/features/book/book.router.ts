@@ -12,9 +12,20 @@ const isValidSubCatId: CustomValidator = async (id: string) => {
   if (!exists) return Promise.reject('Sub-category does not exists')
 }
 
+const isValidSubCatIds: CustomValidator = async (ids: string[]) => {
+  const exists = await subCatService.validateSubCatIdList(ids)
+  if (!exists) return Promise.reject('Sub-categories do not exists')
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const isValidAuthorId: CustomValidator = async (id: string) => {
   const exists = await authorService.authorIdExists(id)
   if (!exists) return Promise.reject('Author does not exists')
+}
+
+const isValidAuthorIdList: CustomValidator = async (ids: string[]) => {
+  const exists = await authorService.validateAuthorIdList(ids)
+  if (!exists) return Promise.reject('Authors do not exist')
 }
 
 const isValidBookId: CustomValidator = async (id: string) => {
@@ -54,8 +65,8 @@ bookRouter.get('/book/:id', async (req, res) => {
 // POST: /book
 const createBookValidations: ValidationChain[] = [
   body('name').notEmpty(),
-  body('subCatId').isUUID().bail().custom(isValidSubCatId),
-  body('authorId').isUUID().bail().custom(isValidAuthorId),
+  body('subCatIds').isArray({ min: 1 }).bail().custom(isValidSubCatIds),
+  body('authorIds').isArray({ min: 1 }).bail().custom(isValidAuthorIdList),
   body('featureImage').optional().isURL(),
   body('coverImage').optional().isURL(),
   body('listenUrl').optional().isURL(),
@@ -75,8 +86,8 @@ bookRouter.post('/book', validate(createBookValidations), async (req, res) => {
 const updateBookValidations: ValidationChain[] = [
   param('id').isUUID().bail().custom(isValidBookId),
   body('name').optional().isString(),
-  body('subCatId').optional().isUUID().bail().custom(isValidSubCatId),
-  body('authorId').optional().isUUID().bail().custom(isValidAuthorId),
+  body('subCatIds').optional().isArray().bail().custom(isValidSubCatIds),
+  body('authorIds').optional().isArray().bail().custom(isValidAuthorIdList),
   body('featureImage').optional().isURL(),
   body('coverImage').optional().isURL(),
   body('listenUrl').optional().isURL(),

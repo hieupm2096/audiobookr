@@ -1,3 +1,5 @@
 export { Book } from './book.model'
+export { BookAuthor } from './book_author.model'
+export { BookSubCat } from './book_sub_cat.model'
 export { bookService } from './book.service'
 export { bookRouter } from './book.router'
