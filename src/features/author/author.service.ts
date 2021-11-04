@@ -7,7 +7,7 @@ class AuthorService {
   }
 
   async authorIdExists(id: string) {
-    return await Author.findOne({ where: { id }, attributes: ['id'] })
+    return await Author.findByPk(id, { attributes: ['id'] })
   }
 
   async validateAuthorIdList(ids: string[]): Promise<boolean> {
@@ -16,7 +16,7 @@ class AuthorService {
   }
 
   async getAuthor(id: string) {
-    return await Author.findOne({ where: { id }, include: { model: Book, through: { attributes: [] } } })
+    return await Author.findByPk(id, { include: { model: Book, through: { attributes: [] } } })
   }
 
   async createAuthor(model: {

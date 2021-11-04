@@ -18,18 +18,17 @@ class BookService {
   }
 
   async getBook(id: string): Promise<Book> {
-    return await Book.findOne({
+    return await Book.findByPk(id, {
       include: [
         { model: SubCat, attributes: ['id', 'name'] },
         { model: Author, attributes: ['id', 'name'] },
         { model: Chapter },
       ],
-      where: { id },
     })
   }
 
   async bookIdExists(id: string): Promise<boolean> {
-    const result = await Book.findOne({ where: { id }, attributes: ['id'] })
+    const result = await Book.findByPk(id, { attributes: ['id'] })
     return result != null
   }
 

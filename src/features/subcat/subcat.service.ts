@@ -22,8 +22,7 @@ class SubCatService {
   }
 
   async getSubCat(id: string): Promise<SubCat> {
-    return await SubCat.findOne({
-      where: { id },
+    return await SubCat.findByPk(id, {
       include: [
         { model: Category, attributes: ['id', 'name'] },
         { model: Book, through: { attributes: [] } },
@@ -37,7 +36,7 @@ class SubCatService {
   }
 
   async subcatIdExists(id: string): Promise<boolean> {
-    const exists = await SubCat.findOne({ where: { id }, attributes: ['id'] })
+    const exists = await SubCat.findByPk(id, { attributes: ['id'] })
     return exists != null
   }
 

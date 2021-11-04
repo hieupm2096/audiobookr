@@ -6,11 +6,11 @@ class ChapterService {
   }
 
   async getChapter(id: string): Promise<Chapter> {
-      return await Chapter.findOne({ where: { id }})
+      return await Chapter.findByPk(id)
   }
 
   async chapterExists(id: string): Promise<boolean> {
-    const exists = await Chapter.findOne({ where: { id }, attributes: ['id'] })
+    const exists = await Chapter.findByPk(id, { attributes: ['id'] })
     return exists != null
   }
 

@@ -7,11 +7,11 @@ class CategoryService {
   }
 
   async getCategory(id: string): Promise<Category> {
-    return await Category.findOne({ where: { id }, include: [SubCat] })
+    return await Category.findByPk(id, { include: [SubCat] })
   }
 
   async categoryExists(id: string): Promise<boolean> {
-    const exists = await Category.findOne({ where: { id }, attributes: ['id'] })
+    const exists = await Category.findByPk(id, { attributes: ['id'] })
     return exists != null
   }
 
