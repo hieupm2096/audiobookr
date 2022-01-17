@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { body, CustomValidator, param, query, ValidationChain } from 'express-validator'
 import { validate } from '../../externals/validation/express-validator'
+import { pagination } from '../../../types/express/pagination'
 import { bookService } from './book.service'
 import { subCatService } from '../subcat'
 import { authorService } from '../author'
@@ -36,11 +37,12 @@ const isValidBookId: CustomValidator = async (id: string) => {
 // GET: /book
 bookRouter.get(
   '/book',
+  pagination,
   validate([query('subCatId').optional().isUUID().bail().custom(isValidSubCatId)]),
   async (req, res) => {
     try {
       const subCatId = req.query.subCatId as string
-      const books = await bookService.getBookList(subCatId)
+      const books = await bookService.getBookList(subCatId, req.pagination)
 
       return res.status(200).json({ message: 'success', data: books })
     } catch (e) {

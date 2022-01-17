@@ -1,20 +1,30 @@
 import { sequelize } from '../../externals/networking/sequelize'
+import { Pagination } from '../../../types/express/pagination'
 import { Author } from '../author'
 import { Chapter } from '../chapter'
 import { SubCat } from '../subcat'
 import { Book } from './book.model'
 
 class BookService {
-  async getBookList(subCatId?: string): Promise<Book[]> {
+  async getBookList(subCatId?: string, pagination?: Pagination): Promise<Book[]> {
     if (!subCatId) {
       return await Book.findAll({
         include: [
           { model: SubCat, attributes: ['id', 'name'] },
           { model: Author, attributes: ['id', 'name'] },
         ],
+        limit: pagination?.limit,
+        offset: pagination?.skip,
+        order: pagination?.sort != null ? [[pagination.sort.key, pagination.sort.order]] : [],
       })
     }
-    return await Book.findAll({ include: [{ model: Author, attributes: ['id', 'name'] }], where: { subCatId } })
+    return await Book.findAll({
+      include: [{ model: Author, attributes: ['id', 'name'] }],
+      where: { subCatId },
+      limit: pagination?.limit,
+      offset: pagination?.skip,
+      order: pagination?.sort != null ? [[pagination.sort.key, pagination.sort.order]] : [],
+    })
   }
 
   async getBook(id: string): Promise<Book> {

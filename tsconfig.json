@@ -12,7 +12,8 @@
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]
-    }
+    },
+    "typeRoots": ["./types"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "types/express/pagination.ts"]
 }
