@@ -2,11 +2,11 @@ import { Chapter } from './chapter.model'
 
 class ChapterService {
   async getChapterList(bookId: string): Promise<Chapter[]> {
-    return await Chapter.findAll({ where: { bookId } })
+    return await Chapter.findAll({ where: { book_id: bookId } })
   }
 
   async getChapter(id: string): Promise<Chapter> {
-      return await Chapter.findByPk(id)
+    return await Chapter.findByPk(id)
   }
 
   async chapterExists(id: string): Promise<boolean> {
@@ -25,7 +25,7 @@ class ChapterService {
     const chapter = new Chapter(model)
 
     const result = await chapter.save({
-      fields: ['name', 'bookId', 'description', 'featureImage', 'coverImage', 'listenUrl'],
+      fields: ['name', 'book_id', 'description', 'feature_image', 'cover_image', 'listen_url'],
     })
 
     return result

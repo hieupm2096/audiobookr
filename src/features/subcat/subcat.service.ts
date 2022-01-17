@@ -1,4 +1,3 @@
-import { Book } from '../book'
 import { Category } from '../category'
 import { SubCat } from './subcat.model'
 
@@ -8,15 +7,15 @@ class SubCatService {
       return await SubCat.findAll({
         include: [
           { model: Category, attributes: ['id', 'name'] },
-          { model: Book, attributes: ['id', 'name'], through: { attributes: [] } },
+          // { model: Book, attributes: ['id', 'name'], through: { attributes: [] } },
         ],
       })
     }
     return await SubCat.findAll({
-      where: { catId },
+      where: { category_id: catId },
       include: [
-        { model: Category, attributes: ['id', 'name'] },
-        { model: Book, attributes: ['id', 'name'], through: { attributes: [] } },
+        // { model: Category, attributes: ['id', 'name'] },
+        // { model: Book, attributes: ['id', 'name'], through: { attributes: [] } },
       ],
     })
   }
@@ -25,7 +24,7 @@ class SubCatService {
     return await SubCat.findByPk(id, {
       include: [
         { model: Category, attributes: ['id', 'name'] },
-        { model: Book, through: { attributes: [] } },
+        // { model: Book, through: { attributes: [] } },
       ],
     })
   }
@@ -43,7 +42,7 @@ class SubCatService {
   async createSubCat(model: { name: string; catId: string; description: string; slug: string }): Promise<SubCat> {
     const subcat = new SubCat(model)
 
-    const result = await subcat.save({ fields: ['name', 'catId', 'description', 'slug'] })
+    const result = await subcat.save({ fields: ['name', 'category_id', 'description', 'slug'] })
 
     return result
   }

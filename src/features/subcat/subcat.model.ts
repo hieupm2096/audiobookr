@@ -24,8 +24,8 @@ export class SubCat extends Model {
   name!: string
 
   @ForeignKey(() => Category)
-  @Column
-  catId!: string
+  @Column({ field: 'category_id' })
+  categoryId!: string
 
   @BelongsTo(() => Category)
   category: Category
@@ -37,9 +37,11 @@ export class SubCat extends Model {
   slug?: string
 
   @CreatedAt
+  @Column({ field: 'created_at' })
   createdAt?: Date
 
   @UpdatedAt
+  @Column({ field: 'updated_at' })
   updatedAt?: Date
 
   @Column

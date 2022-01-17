@@ -19,8 +19,10 @@ class BookService {
       })
     }
     return await Book.findAll({
-      include: [{ model: Author, attributes: ['id', 'name'] }],
-      where: { subCatId },
+      include: [
+        { model: Author, attributes: ['id', 'name'], through: { attributes: [] } },
+        { model: SubCat, attributes: [], through: { attributes: [] }, where: { id: subCatId } },
+      ],
       limit: pagination?.limit,
       offset: pagination?.skip,
       order: pagination?.sort != null ? [[pagination.sort.key, pagination.sort.order]] : [],
@@ -30,8 +32,8 @@ class BookService {
   async getBook(id: string): Promise<Book> {
     return await Book.findByPk(id, {
       include: [
-        { model: SubCat, attributes: ['id', 'name'] },
-        { model: Author, attributes: ['id', 'name'] },
+        { model: SubCat, attributes: ['id', 'name'], through: { attributes: [] } },
+        { model: Author, attributes: ['id', 'name'], through: { attributes: [] } },
         { model: Chapter },
       ],
     })
@@ -61,7 +63,7 @@ class BookService {
 
     try {
       const createdBook = await book.save({
-        fields: ['name', 'description', 'featureImage', 'coverImage', 'listenUrl'],
+        fields: ['name', 'description', 'feature_image', 'cover_image', 'listen_url'],
         transaction,
       })
 

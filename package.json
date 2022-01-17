@@ -6,7 +6,7 @@
     "lint": "eslint src/**/*.ts --fix",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node --optimize_for_size --max_old_space_size=920 --gc_interval=100 dist/index.js",
+    "start": "node --optimize_for_size --max_old_space_size=920 --gc_interval=100 dist/src/index.js",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

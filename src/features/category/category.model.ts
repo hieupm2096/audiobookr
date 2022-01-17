@@ -17,9 +17,11 @@ export class Category extends Model {
   slug?: string
 
   @CreatedAt
+  @Column({ field: 'created_at' })
   createdAt?: Date
 
   @UpdatedAt
+  @Column({ field: 'updated_at' })
   updatedAt?: Date
 
   @Column

@@ -1,4 +1,14 @@
-import { Model, AllowNull, BelongsTo, Column, CreatedAt, ForeignKey, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
+import {
+  Model,
+  AllowNull,
+  BelongsTo,
+  Column,
+  CreatedAt,
+  ForeignKey,
+  PrimaryKey,
+  Table,
+  UpdatedAt,
+} from 'sequelize-typescript'
 import { Book } from '../book'
 
 @Table({ tableName: 'chapter' })
@@ -12,7 +22,7 @@ export class Chapter extends Model {
   name!: string
 
   @ForeignKey(() => Book)
-  @Column
+  @Column({ field: 'book_id' })
   bookId!: string
 
   @BelongsTo(() => Book)
@@ -21,25 +31,24 @@ export class Chapter extends Model {
   @Column
   description?: string
 
-  @Column
+  @Column({ field: 'feature_image' })
   featureImage?: string
 
-  @Column
+  @Column({ field: 'cover_image' })
   coverImage?: string
 
-  @Column
+  @Column({ field: 'listen_url' })
   listenUrl?: string
 
-  @Column
-  likeCount?: number
-
-  @Column
+  @Column({ field: 'listen_count' })
   listenCount?: number
 
   @CreatedAt
+  @Column({ field: 'created_at' })
   createdAt?: Date
 
   @UpdatedAt
+  @Column({ field: 'updated_at' })
   updatedAt?: Date
 
   @Column
