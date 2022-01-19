@@ -11,14 +11,14 @@ export interface Sort {
 }
 
 export interface Pagination {
-  limit?: number
-  skip?: number
+  limit: number
+  skip: number
   sort?: Sort
 }
 
 export const pagination = (req: express.Request, res: express.Response, next: express.NextFunction): void => {
-  const limit = isNaN(Number(req.query.limit)) ? null : Number(req.query.limit)
-  const skip = isNaN(Number(req.query.skip)) ? null : Number(req.query.skip)
+  const limit = isNaN(Number(req.query.limit)) ? 20 : Number(req.query.limit)
+  const skip = isNaN(Number(req.query.skip)) ? 0 : Number(req.query.skip)
   let sort: Sort = null
   if (req.query.sort) {
     let key = req.query.sort as string
