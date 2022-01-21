@@ -9,14 +9,20 @@ import { bookRouter } from './features/book'
 import { uploadRouter } from './features/upload/upload.router'
 import { chapterRouter } from './features/chapter'
 import { authorRouter } from './features/author'
-
-(async () => {
+import { authRouter } from './features/auth'
+import { authenticate } from './externals/passport/passport'
+;(async () => {
   // get env
   if (!process.env.PORT) {
     console.log('No port configuration')
     process.exit(1)
   }
   const port: number = parseInt(process.env.PORT as string, 10)
+
+  if (!process.env.JWT_SECRET) {
+    console.log('No jwt secret configuration')
+    process.exit(1)
+  }
 
   const app = express()
 
@@ -29,6 +35,9 @@ import { authorRouter } from './features/author'
   await sequelize.authenticate()
 
   // router
+  app.use('/api/v1', authRouter)
+
+  app.all('*', authenticate)
   app.use('/api/v1', categoryRouter)
   app.use('/api/v1', subCatRouter)
   app.use('/api/v1', bookRouter)

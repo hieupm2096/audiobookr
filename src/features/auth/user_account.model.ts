@@ -1,40 +1,50 @@
-import { AllowNull, Column, CreatedAt, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
+import { AllowNull, Column, CreatedAt, Model, PrimaryKey, Table, Unique, UpdatedAt } from 'sequelize-typescript'
 
-@Table({ tableName: 'user_account' })
+@Table({ tableName: 'user_account', underscored: true })
 export class UserAccount extends Model {
   @PrimaryKey
   @Column
   id?: string
 
+  @Unique
+  @AllowNull(false)
   @Column
   username!: string
 
   @AllowNull(false)
-  @Column({ field: 'first_name' })
+  @Column
   firstName!: string
 
   @AllowNull(false)
-  @Column({ field: 'last_name' })
+  @Column
   lastName!: string
 
-  @Column({ field: 'profile_picture' })
+  @Column
   profilePicture?: string
 
+  @Unique
   @AllowNull(false)
-  @Column({ field: 'email' })
+  @Column
   email!: string
 
   @Column
   password?: string
 
   @CreatedAt
-  @Column({ field: 'created_at' })
+  @Column
   createdAt?: Date
 
   @UpdatedAt
-  @Column({ field: 'updated_at' })
+  @Column
   updatedAt?: Date
 
   @Column
   status?: number
 }
+
+UserAccount.prototype.toJSON = function () {
+  const values = Object.assign({}, this.get());
+ 
+  delete values.password;
+  return values;
+ };
