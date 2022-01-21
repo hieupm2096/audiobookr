@@ -1,7 +1,7 @@
 import { Table, Model, Column, CreatedAt, UpdatedAt, PrimaryKey, HasMany } from 'sequelize-typescript'
 import { SubCat } from '../subcat/subcat.model'
 
-@Table({ tableName: 'category' })
+@Table({ tableName: 'category', underscored: true })
 export class Category extends Model {
   @PrimaryKey
   @Column
@@ -17,11 +17,11 @@ export class Category extends Model {
   slug?: string
 
   @CreatedAt
-  @Column({ field: 'created_at' })
+  @Column
   createdAt?: Date
 
   @UpdatedAt
-  @Column({ field: 'updated_at' })
+  @Column
   updatedAt?: Date
 
   @Column

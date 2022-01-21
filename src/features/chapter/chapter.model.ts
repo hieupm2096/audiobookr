@@ -11,7 +11,7 @@ import {
 } from 'sequelize-typescript'
 import { Book } from '../book'
 
-@Table({ tableName: 'chapter' })
+@Table({ tableName: 'chapter', underscored: true })
 export class Chapter extends Model {
   @PrimaryKey
   @Column
@@ -22,7 +22,7 @@ export class Chapter extends Model {
   name!: string
 
   @ForeignKey(() => Book)
-  @Column({ field: 'book_id' })
+  @Column
   bookId!: string
 
   @BelongsTo(() => Book)
@@ -31,24 +31,24 @@ export class Chapter extends Model {
   @Column
   description?: string
 
-  @Column({ field: 'feature_image' })
+  @Column
   featureImage?: string
 
-  @Column({ field: 'cover_image' })
+  @Column
   coverImage?: string
 
-  @Column({ field: 'listen_url' })
+  @Column
   listenUrl?: string
 
-  @Column({ field: 'listen_count' })
+  @Column
   listenCount?: number
 
   @CreatedAt
-  @Column({ field: 'created_at' })
+  @Column
   createdAt?: Date
 
   @UpdatedAt
-  @Column({ field: 'updated_at' })
+  @Column
   updatedAt?: Date
 
   @Column

@@ -14,7 +14,7 @@ import { Author } from '../author'
 import { Chapter } from '../chapter'
 import { SubCat } from '../subcat'
 
-@Table({ tableName: 'book' })
+@Table({ tableName: 'book', underscored: true })
 export class Book extends Model {
   @PrimaryKey
   @Column
@@ -27,30 +27,30 @@ export class Book extends Model {
   @Column
   description?: string
 
-  @Column({ field: 'feature_image' })
+  @Column
   featureImage?: string
 
-  @Column({ field: 'cover_image' })
+  @Column
   coverImage?: string
 
-  @Column({ field: 'listen_url' })
+  @Column
   listenUrl?: string
 
-  @Column({ field: 'like_count' })
+  @Column
   likeCount?: number
 
-  @Column({ field: 'listen_count' })
+  @Column
   listenCount?: number
 
-  @Column({ field: 'view_count' })
+  @Column
   viewCount?: number
 
   @CreatedAt
-  @Column({ field: 'created_at' })
+  @Column
   createdAt?: Date
 
   @UpdatedAt
-  @Column({ field: 'updated_at' })
+  @Column
   updatedAt?: Date
 
   @Column

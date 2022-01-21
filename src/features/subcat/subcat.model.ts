@@ -13,7 +13,7 @@ import {
 import { Book, BookSubCat } from '../book'
 import { Category } from '../category'
 
-@Table({ tableName: 'sub_cat' })
+@Table({ tableName: 'sub_cat', underscored: true })
 export class SubCat extends Model {
   @PrimaryKey
   @Column
@@ -24,7 +24,7 @@ export class SubCat extends Model {
   name!: string
 
   @ForeignKey(() => Category)
-  @Column({ field: 'category_id' })
+  @Column
   categoryId!: string
 
   @BelongsTo(() => Category)
@@ -37,11 +37,11 @@ export class SubCat extends Model {
   slug?: string
 
   @CreatedAt
-  @Column({ field: 'created_at' })
+  @Column
   createdAt?: Date
 
   @UpdatedAt
-  @Column({ field: 'updated_at' })
+  @Column
   updatedAt?: Date
 
   @Column

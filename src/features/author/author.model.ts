@@ -1,7 +1,7 @@
 import { AllowNull, BelongsToMany, Column, CreatedAt, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
 import { Book, BookAuthor } from '../book'
 
-@Table({ tableName: 'author' })
+@Table({ tableName: 'author', underscored: true })
 export class Author extends Model {
   @PrimaryKey
   @Column
@@ -17,27 +17,27 @@ export class Author extends Model {
   @Column
   dob?: Date
 
-  @Column({ field: 'feature_image' })
+  @Column
   featureImage?: string
 
-  @Column({ field: 'cover_image' })
+  @Column
   coverImage?: string
 
-  @Column({ field: 'like_count' })
+  @Column
   likeCount?: number
 
-  @Column({ field: 'listen_count' })
+  @Column
   listenCount?: number
 
-  @Column({ field: 'view_count' })
+  @Column
   viewCount?: number
 
   @CreatedAt
-  @Column({ field: 'created_at' })
+  @Column
   createdAt?: Date
 
   @UpdatedAt
-  @Column({ field: 'updated_at' })
+  @Column
   updatedAt?: Date
 
   @Column
