@@ -14,7 +14,7 @@ export const validate = (validations: ValidationChain[]) => {
   }
 }
 
-export const bodyNotEmpty: CustomValidator = (_, { req } ) => {
+export const bodyNotEmpty: CustomValidator = (_, { req }) => {
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     return Promise.reject('Invalid request body')
   }

@@ -1,7 +1,7 @@
 import { UserAccount } from './user_account.model'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
-import { UserToken } from '.'
+import { UserExternal, UserToken } from '.'
 import dayjs from 'dayjs'
 
 class AuthService {
@@ -15,6 +15,11 @@ class AuthService {
     return isIdentical ? user : null
   }
 
+  async getUserAccountByEmail(email: string): Promise<UserAccount> {
+    const user = await UserAccount.findOne({ where: { email } })
+    return user
+  }
+
   async usernameExists(username: string): Promise<boolean> {
     const count = await UserAccount.count({ where: { username } })
     return count > 0
@@ -25,7 +30,7 @@ class AuthService {
     return count > 0
   }
 
-  async createNormalUserAccount(model: {
+  async createUserAccount(model: {
     username: string
     password: string
     email: string
@@ -53,6 +58,33 @@ class AuthService {
 
   async getUserToken(userAccountId: string): Promise<UserToken> {
     const result = await UserToken.findOne({ where: { userAccountId } })
+    return result
+  }
+
+  async getUserExternalByExternalId(externalUserId: string): Promise<UserExternal> {
+    const result = await UserExternal.findOne({ where: { externalUserId } })
+    return result
+  }
+
+  async getUserExternalById(id: string): Promise<UserExternal> {
+    const result = await UserExternal.findOne({ where: { id } })
+    return result
+  }
+
+  async createUserExternal(model: {
+    authProvider: string
+    userAccountId?: string
+    externalUserId: string
+    firstName: string
+    lastName: string
+    email: string
+  }) {
+    const userExternal = new UserExternal(model)
+
+    const result = await userExternal.save({
+      fields: ['authProvider', 'userAccountId', 'externalUserId', 'email', 'firstName', 'lastName'],
+    })
+
     return result
   }
 }
