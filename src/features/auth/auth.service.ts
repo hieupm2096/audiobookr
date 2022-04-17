@@ -36,6 +36,7 @@ class AuthService {
     email: string
     firstName: string
     lastName: string
+    profilePicture?: string
   }): Promise<UserAccount> {
     const userAccount = new UserAccount(model)
 
@@ -43,8 +44,9 @@ class AuthService {
 
     userAccount.password = hashedPassword
 
-    const result = await userAccount.save({ fields: ['username', 'password', 'email', 'firstName', 'lastName'] })
-
+    const result = await userAccount.save({
+      fields: ['username', 'password', 'email', 'firstName', 'lastName', 'profilePicture'],
+    })
     return result
   }
 
@@ -78,11 +80,12 @@ class AuthService {
     firstName: string
     lastName: string
     email: string
+    profilePicture?: string
   }) {
     const userExternal = new UserExternal(model)
 
     const result = await userExternal.save({
-      fields: ['authProvider', 'userAccountId', 'externalUserId', 'email', 'firstName', 'lastName'],
+      fields: ['authProvider', 'userAccountId', 'externalUserId', 'email', 'firstName', 'lastName', 'profilePicture'],
     })
 
     return result

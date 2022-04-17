@@ -46,6 +46,7 @@ const signUpValidations: ValidationChain[] = [
   body('firstName').custom(isAlphaWithUnicode),
   body('lastName').custom(isAlphaWithUnicode),
   body('username').notEmpty().bail().custom(isValidUsername),
+  body('profilePicture').optional().isURL(),
   body('password').notEmpty().bail().isLength({ min: 6 }),
 ]
 
@@ -86,6 +87,7 @@ const facebookValidations: ValidationChain[] = [
   body('email').isEmail(),
   body('firstName').custom(isAlphaWithUnicode),
   body('lastName').custom(isAlphaWithUnicode),
+  body('profilePicture').optional().isURL(),
 ]
 authRouter.post('/auth/facebook', validate(facebookValidations), async (req, res) => {
   try {
