@@ -10,7 +10,7 @@ export const validate = (validations: ValidationChain[]) => {
       return next()
     }
 
-    res.status(400).json({ message: errors.array()[0].msg })
+    res.status(400).json({ message: errors.array() })
   }
 }
 
@@ -18,4 +18,15 @@ export const bodyNotEmpty: CustomValidator = (_, { req }) => {
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     return Promise.reject('Invalid request body')
   }
+  return true
+}
+
+export const isAlphaWithUnicode: CustomValidator = (value) => {
+  const regex = new RegExp(
+    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s|_]+$/,
+  )
+  if (!regex.test(value)) {
+    return Promise.reject('Invalid value')
+  }
+  return true
 }

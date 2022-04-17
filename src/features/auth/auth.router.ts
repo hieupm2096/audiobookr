@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { body, CustomValidator, param, ValidationChain } from 'express-validator'
-import { validate } from '../../externals/validation/express-validator'
+import { isAlphaWithUnicode, validate } from '../../externals/validation/express-validator'
 import { authService } from '.'
 import jwt from 'jsonwebtoken'
 
@@ -43,8 +43,8 @@ authRouter.post('/login', validate(loginValidations), async (req, res) => {
 // POST: /signup
 const signUpValidations: ValidationChain[] = [
   body('email').isEmail(),
-  body('firstName').isAlpha(),
-  body('lastName').isAlpha(),
+  body('firstName').custom(isAlphaWithUnicode),
+  body('lastName').custom(isAlphaWithUnicode),
   body('username').notEmpty().bail().custom(isValidUsername),
   body('password').notEmpty().bail().isLength({ min: 6 }),
 ]
@@ -84,8 +84,8 @@ authRouter.post('/auth/token', validate(reIssueTokenValidations), async (req, re
 const facebookValidations: ValidationChain[] = [
   body('facebookId').notEmpty(),
   body('email').isEmail(),
-  body('firstName').isAlpha(),
-  body('lastName').isAlpha(),
+  body('firstName').custom(isAlphaWithUnicode),
+  body('lastName').custom(isAlphaWithUnicode),
 ]
 authRouter.post('/auth/facebook', validate(facebookValidations), async (req, res) => {
   try {
