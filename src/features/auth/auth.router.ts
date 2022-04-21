@@ -43,8 +43,8 @@ authRouter.post('/login', validate(loginValidations), async (req, res) => {
 // POST: /signup
 const signUpValidations: ValidationChain[] = [
   body('email').isEmail(),
-  body('firstName').custom(isAlphaWithUnicode),
-  body('lastName').custom(isAlphaWithUnicode),
+  body('firstName').optional().custom(isAlphaWithUnicode),
+  body('lastName').optional().custom(isAlphaWithUnicode),
   body('username').notEmpty().bail().custom(isValidUsername),
   body('profilePicture').optional().isURL(),
   body('password').notEmpty().bail().isLength({ min: 6 }),
@@ -85,8 +85,8 @@ authRouter.post('/auth/token', validate(reIssueTokenValidations), async (req, re
 const facebookValidations: ValidationChain[] = [
   body('facebookId').notEmpty(),
   body('email').isEmail(),
-  body('firstName').custom(isAlphaWithUnicode),
-  body('lastName').custom(isAlphaWithUnicode),
+  body('firstName').optional().custom(isAlphaWithUnicode),
+  body('lastName').optional().custom(isAlphaWithUnicode),
   body('profilePicture').optional().isURL(),
 ]
 authRouter.post('/auth/facebook', validate(facebookValidations), async (req, res) => {

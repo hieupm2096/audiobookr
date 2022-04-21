@@ -1,4 +1,4 @@
-import { BelongsTo, Column, CreatedAt, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
+import { AllowNull, BelongsTo, Column, CreatedAt, ForeignKey, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript'
 import { UserAccount } from './user_account.model'
 
 @Table({ tableName: 'user_external', underscored: true })
@@ -14,6 +14,7 @@ export class UserExternal extends Model {
   @BelongsTo(() => UserAccount)
   userAccount: UserAccount
 
+  @AllowNull(false)
   @Column
   authProvider!: string
 
@@ -24,11 +25,12 @@ export class UserExternal extends Model {
   name?: string
 
   @Column
-  firstName!: string
+  firstName?: string
 
   @Column
-  lastName!: string
+  lastName?: string
 
+  @AllowNull(false)
   @Column
   email!: string
 

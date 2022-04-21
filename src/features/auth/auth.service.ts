@@ -1,7 +1,6 @@
-import { UserAccount } from './user_account.model'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
-import { UserExternal, UserToken } from '.'
+import { UserExternal, UserToken, UserAccount } from '.'
 import dayjs from 'dayjs'
 
 class AuthService {

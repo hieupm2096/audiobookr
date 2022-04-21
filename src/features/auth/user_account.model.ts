@@ -11,13 +11,11 @@ export class UserAccount extends Model {
   @Column
   username!: string
 
-  @AllowNull(false)
   @Column
-  firstName!: string
+  firstName?: string
 
-  @AllowNull(false)
   @Column
-  lastName!: string
+  lastName?: string
 
   @Column
   profilePicture?: string
