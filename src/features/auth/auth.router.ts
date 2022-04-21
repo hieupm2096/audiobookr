@@ -146,6 +146,71 @@ authRouter.post('/auth/facebook', validate(facebookValidations), async (req, res
   }
 })
 
+// POST: /auth/google
+const googleValidations: ValidationChain[] = [
+  body('googleId').notEmpty(),
+  body('email').isEmail(),
+  body('firstName').optional().custom(isAlphaWithUnicode),
+  body('lastName').optional().custom(isAlphaWithUnicode),
+  body('profilePicture').optional().isURL(),
+]
+authRouter.post('/auth/google', validate(googleValidations), async (req, res) => {
+  try {
+    const { googleId, email, firstName, lastName } = req.body
+
+    const userExternal = await authService.getUserExternalByExternalId(googleId)
+
+    // new user external
+    if (!userExternal) {
+      // get user account by email
+      const userAccount = await authService.getUserAccountByEmail(email)
+      const userAccountId = userAccount?.id
+
+      // create user external and link to user account (if already exists)
+      const createdUserExternal = await authService.createUserExternal({
+        authProvider: 'google',
+        email,
+        userAccountId,
+        externalUserId: googleId,
+        firstName,
+        lastName,
+      })
+
+      if (!userAccount) {
+        // return external user id and request create user account
+        return res.status(200).json({ message: 'success', data: { id: createdUserExternal.id, requestCreate: true } })
+      }
+
+      const token = await issueToken(userAccountId)
+
+      return res.status(200).json({ message: 'success', data: { profile: userAccount, token, merged: true } })
+    }
+
+    const userAccount = await authService.getUserAccountByEmail(userExternal.email)
+
+    // user external exists, but no user account (user hasn't finished request create user account)
+    if (!userAccount) {
+      // return request create user account
+      return res
+        .status(200)
+        .json({ message: 'success', data: { id: userExternal.externalUserId, requestCreate: true } })
+    }
+
+    // edge case, it should not happen, user hasn't linked account
+    if (userAccount.id != userExternal.userAccountId) {
+      // update user external
+      userExternal.userAccountId = userAccount.id
+      await userExternal.save() // not clean, but convenient
+    }
+
+    const token = await issueToken(userAccount.id)
+    return res.status(200).json({ message: 'success', data: { profile: userAccount, token } })
+  } catch (e) {
+    console.log('error: ' + e.message)
+    return res.status(500).json({ message: e.message })
+  }
+})
+
 // POST: /signup/:userExternalId
 const signUpExternalValidations: ValidationChain[] = [
   param('userExternalId').isUUID().bail(),
