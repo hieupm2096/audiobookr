@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { body, CustomValidator, param, ValidationChain } from 'express-validator'
-import { isAlphaWithUnicode, validate } from '../../externals/validation/express-validator'
+import { validate } from '../../externals/validation/express-validator'
 import { authService } from '.'
 import jwt from 'jsonwebtoken'
 
@@ -43,8 +43,8 @@ authRouter.post('/login', validate(loginValidations), async (req, res) => {
 // POST: /signup
 const signUpValidations: ValidationChain[] = [
   body('email').isEmail(),
-  body('firstName').optional().custom(isAlphaWithUnicode),
-  body('lastName').optional().custom(isAlphaWithUnicode),
+  body('firstName').optional(),
+  body('lastName').optional(),
   body('username').notEmpty().bail().custom(isValidUsername),
   body('profilePicture').optional().isURL(),
   body('password').notEmpty().bail().isLength({ min: 6 }),
@@ -85,8 +85,8 @@ authRouter.post('/auth/token', validate(reIssueTokenValidations), async (req, re
 const facebookValidations: ValidationChain[] = [
   body('facebookId').notEmpty(),
   body('email').isEmail(),
-  body('firstName').optional().custom(isAlphaWithUnicode),
-  body('lastName').optional().custom(isAlphaWithUnicode),
+  body('firstName').optional(),
+  body('lastName').optional(),
   body('profilePicture').optional().isURL(),
 ]
 authRouter.post('/auth/facebook', validate(facebookValidations), async (req, res) => {
@@ -150,8 +150,8 @@ authRouter.post('/auth/facebook', validate(facebookValidations), async (req, res
 const googleValidations: ValidationChain[] = [
   body('googleId').notEmpty(),
   body('email').isEmail(),
-  body('firstName').optional().custom(isAlphaWithUnicode),
-  body('lastName').optional().custom(isAlphaWithUnicode),
+  body('firstName').optional(),
+  body('lastName').optional(),
   body('profilePicture').optional().isURL(),
 ]
 authRouter.post('/auth/google', validate(googleValidations), async (req, res) => {
