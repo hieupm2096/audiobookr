@@ -34,23 +34,24 @@ const isValidBookId: CustomValidator = async (id: string) => {
   if (!result) return Promise.reject('Book does not exist')
 }
 
-// GET: /book
-bookRouter.get(
-  '/book',
-  pagination,
-  validate([query('subCatId').optional().isUUID().bail().custom(isValidSubCatId)]),
-  async (req, res) => {
-    try {
-      const subCatId = req.query.subCatId as string
-      const books = await bookService.getBookList(subCatId, req.pagination)
+const booksQueriesValidation: ValidationChain[] = [
+  query('subCatId').optional().isUUID().bail().custom(isValidSubCatId),
+  query('keywords').optional().isString(),
+]
 
-      return res.status(200).json({ message: 'success', data: books })
-    } catch (e) {
-      console.log('error: ' + e.message)
-      return res.status(500).json({ message: e.message })
-    }
-  },
-)
+// GET: /book
+bookRouter.get('/book', pagination, validate(booksQueriesValidation), async (req, res) => {
+  try {
+    const subCatId = req.query.subCatId as string
+    const keywords = req.query.keywords as string
+    const books = await bookService.getBookList(subCatId, keywords, req.pagination)
+
+    return res.status(200).json({ message: 'success', data: books })
+  } catch (e) {
+    console.log('error: ' + e.message)
+    return res.status(500).json({ message: e.message })
+  }
+})
 
 bookRouter.get('/book/:id', async (req, res) => {
   try {

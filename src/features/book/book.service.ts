@@ -4,25 +4,55 @@ import { Author } from '../author'
 import { Chapter } from '../chapter'
 import { SubCat } from '../subcat'
 import { Book } from './book.model'
+import { Sequelize } from 'sequelize-typescript'
+import { Op, WhereOptions } from 'sequelize'
 
 class BookService {
-  async getBookList(subCatId?: string, pagination?: Pagination): Promise<Book[]> {
-    if (!subCatId) {
-      return await Book.findAll({
-        include: [
-          { model: SubCat, attributes: ['id', 'name'] },
-          { model: Author, attributes: ['id', 'name'] },
-        ],
-        limit: pagination?.limit,
-        offset: pagination?.skip,
-        order: pagination?.sort != null ? [[pagination.sort.key, pagination.sort.order]] : [],
-      })
+  async getBookList(subCatId?: string, keywords?: string, pagination?: Pagination): Promise<Book[]> {
+    let subCatWhere: WhereOptions
+    let keywordsWhere: WhereOptions
+    const combinedWhere: WhereOptions[] = []
+
+    if (subCatId != null) {
+      // using Sequelize.col instead of string to specify column name
+      subCatWhere = Sequelize.where(Sequelize.col('subCats.id'), subCatId)
     }
+
+    if (keywords != null && keywords.length > 0) {
+      // lowercase and remove accents
+      const normalizedKeywords = keywords
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+
+      keywordsWhere = {
+        [Op.or]: [
+          Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('Book.name')), {
+            [Op.iLike]: `%${normalizedKeywords}%`,
+          }),
+          Sequelize.where(Sequelize.fn('unaccent', Sequelize.col('authors.name')), {
+            [Op.iLike]: `%${normalizedKeywords}%`,
+          }),
+        ],
+      }
+    }
+
+    if (subCatWhere != null) {
+      combinedWhere.push(subCatWhere)
+    }
+    if (keywordsWhere != null) {
+      combinedWhere.push(keywordsWhere)
+    }
+
     return await Book.findAll({
       include: [
-        { model: Author, attributes: ['id', 'name'], through: { attributes: [] } },
-        { model: SubCat, attributes: [], through: { attributes: [] }, where: { id: subCatId } },
+        { model: SubCat, attributes: ['id', 'name'], through: { attributes: [] }, subQuery: false },
+        { model: Author, attributes: ['id', 'name'], through: { attributes: [] }, subQuery: false },
       ],
+      where: {
+        [Op.and]: combinedWhere,
+      },
+      subQuery: false,
       limit: pagination?.limit,
       offset: pagination?.skip,
       order: pagination?.sort != null ? [[pagination.sort.key, pagination.sort.order]] : [],
